@@ -38,14 +38,14 @@
         if(ym>100){
             ym--;
         }
-        if(mangap >= 0.3){
+        if(mangap >= 0.3){ //lebar max mangap
             open = false;
         }
         if(mangap <= 0){
             open = true;
         }
         if(open){
-            mangap = mangap + 0.05;
+            mangap = mangap + 0.05; //interval mangap
         } else {
             mangap = mangap - 0.05;
         }
