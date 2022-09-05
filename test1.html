@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Grafik Game 2</title>
+</head>
+<body>
+    <canvas id="myCanvas" width="800" height="600"></canvas>
+    <script>
+        var canvas = document.getElementById('myCanvas');
+        var context = canvas.getContext('2d');
+        let ym = 200;
+        let mangap = false;
+        let open = true;
+        //context.beginPath();
+        //context.moveTo(100, 150);
+        //context.lineTo(450, 50);
+        //context.stroke();
+
+    function gambarkan() {
+        context.clearRect(0,0,800,600);
+
+        context.beginPath();
+        context.arc(300,ym,100,mangap*Math.PI,(2-mangap)*Math.PI,false);
+        context.lineTo(300,ym);
+        context.closePath();
+        context.fillStyle='#ffff00';
+        context.fill();
+
+        context.beginPath();
+        context.arc(300,ym,100,mangap*Math.PI,(2-mangap)*Math.PI,false);
+        context.lineTo(300,ym);
+        context.strokeStyle = '#ff0000';
+        context.stroke();
+
+        if(ym>100){
+            ym--;
+        }
+        if(mangap >= 0.3){
+            open = false;
+        }
+        if(mangap <= 0){
+            open = true;
+        }
+        if(open){
+            mangap = mangap + 0.05;
+        } else {
+            mangap = mangap - 0.05;
+        }
+    }
+
+    setInterval(gambarkan,100);
+    </script>
+</body>
+</html>
