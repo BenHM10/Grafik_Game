@@ -1,0 +1,142 @@
+<body>
+KANVAS DI HTML5<br />
+<canvas id="myCanvas" width="800" height="600" style="border: 1px solid #000000;"></canvas>
+<script>
+	var canvas = document.getElementById('myCanvas');
+	var ctx = canvas.getContext('2d');
+	let ym = 200;
+	let mangap = 0;
+	let open = true;
+	let ctr = 0;
+	let gA = 1;
+	ctx.fillStyle='#ffff00';
+	let sudutMulut = 0;
+	
+	//Objek Pacman
+	var pakman={
+		x: 300,
+		y: ym,
+		jj: 100,
+		mangap: 0,
+		open: true
+	}
+
+	//Fungsi Deteksi Keyboard
+	window.addEventListener("keydown", funckeydn, true);
+	window.addEventListener("keyup", funckeyup,true);
+	function funckeydn(e){
+		if(e.keyCode==37){
+			//panah kiri dipencet
+			pakman.x--;
+		}
+		if(e.keyCode==38){
+			//panah atas dipencet
+			pakman.y--;
+		}
+		if(e.keyCode==39){
+			//panah kanan dipencet
+			pakman.x++;
+		}
+		if(e.keyCode==40){
+			//panah bawah dipencet
+			pakman.y++;
+		}
+	}
+	function funckeyup(e){
+
+	}
+
+	//Muncul di layar
+	function gambarkan(){
+		ctx.clearRect(0,0,800,600);
+
+		pakman.y=ym;
+		ctx.beginPath();
+		ctx.arc(pakman.x,pakman.y,pakman.jj,pakman.mangap*Math.PI,(2-pakman.mangap)*Math.PI,false);
+		ctx.lineTo(pakman.x,pakman.y);
+		//ctx.arc(300,ym,100,mangap*Math.PI,(2-mangap)*Math.PI,false);
+		//ctx.lineTo(300,ym);
+		ctx.closePath();
+		if(ctr==100){
+			ctx.save();
+			ctx.fillStyle="#fe9fb2";
+		}
+		if(ctr==200){
+			ctx.restore();
+			ctr=0; //Buat mengulang warna 
+		}
+		ctx.fill();
+
+		ctx.beginPath();
+		ctx.arc(pakman.x,pakman.y,pakman.jj,pakman.mangap*Math.PI,(2-pakman.mangap)*Math.PI,false);
+		ctx.lineTo(pakman.x,pakman.y);
+		//ctx.closePath();
+		ctx.strokeStyle='#ff0000';
+		ctx.stroke();
+
+		var text = "Pakman";
+		ctx.font="50px serif";
+		ctx.strokeText(text,500,50);
+		ctx.fillText(text,500,100);
+		ctx.fillText("Skor",500,150);
+
+		ctx.save();
+		ctx.beginPath();
+		ctx.arc(350,100,50,0*Math.PI,2*Math.PI,false);
+		ctx.globalAlpha=0.5; //Keburaman(Opacity)
+		ctx.fillStyle="#0055ff";
+		ctx.closePath();
+		ctx.fill();
+
+		//Mengatur waktu keburaman
+		if(gA>=0.01){
+			gA=gA-0.01;
+		}
+
+		ctx.beginPath();
+		ctx.arc(200,100,50,0*Math.PI,2*Math.PI,false);
+		ctx.globalAlpha=gA;
+		//ctx.globalAlpha=0.5; //Keburaman(Opacity)
+		ctx.fillStyle="#00ff55";
+		ctx.closePath();
+		ctx.fill();
+		ctx.restore();
+
+
+		//terbit sampai atas canvas lalu berhenti
+		//if(ym>100){
+		//	ym--;
+		//}
+		//mangap2, variabel mangap = derajat buka mulutnya,
+		//open = sedang membuka atau tidak (true/false), kalau false berarti disuruh mingkem
+		if(pakman.mangap >= 0.3){			//0.3: lebar mangap maksimum
+			pakman.open = false;
+		}
+		if(pakman.mangap <= 0){
+			pakman.open = true;
+		}
+		if(pakman.open){
+			pakman.mangap = pakman.mangap + 0.05;	//jarak mangap pelan-pelan, berapa pi rad
+		} else {
+			pakman.mangap = pakman.mangap - 0.05;
+		}
+		ctr++;
+
+		ctx.save();
+		ctx.fillStyle = "rgb(50,0,100)";
+		ctx.fillRect(50,50,100,100);
+		ctx.globalCompositeOperation = "lighter";
+		ctx.fillStyle = "rgb(100,0,0)";
+		ctx.fillRect(100,100,100,100);
+		ctx.restore();
+	}
+
+	setInterval(gambarkan,50);
+
+	//ctx.beginPath();
+	//ctx.arc(300,200,100,-0.25*Math.PI,0.25*Math.PI,false);
+	//ctx.closePath();
+	//ctx.fillStyle='#ffffff';
+	//ctx.fill();
+</script>
+</body>
